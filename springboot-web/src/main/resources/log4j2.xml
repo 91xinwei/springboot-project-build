@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <!-- 日志目录，默认target/logs-->
+        <property name="LOG_HOME" value="${sys:log.dir:-target/logs}" />
+        <!-- 默认级别 -->
+        <property name="LOG_LEVEL" value="${sys:log.level:-INFO}" />
+    </Properties>
+
+    <Appenders>
+        <Console name="console1" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%p] %m%n"/>
+        </Console>
+        <RollingFile name="console" fileName="${LOG_HOME}/console.log"
+                     filePattern="${LOG_HOME}/console-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %class{36} [%p] %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DirectWriteRolloverStrategy maxFiles="10"/>
+        </RollingFile>
+
+        <RollingFile name="rollingFileWarn" fileName="${LOG_HOME}/warn.log"
+                     filePattern="${LOG_HOME}/warn-%d{yyyy-MM-dd}.log">
+            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %class{36} [%p] %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DirectWriteRolloverStrategy maxFiles="10"/>
+        </RollingFile>
+
+        <RollingFile name="rollingFileError" fileName="${LOG_HOME}/error.log"
+                     filePattern="${LOG_HOME}/error-%d{yyyy-MM-dd}.log">
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %class{36} [%p] %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DirectWriteRolloverStrategy maxFiles="10"/>
+        </RollingFile>
+
+        <RollingFile name="controller" fileName="${LOG_HOME}/controller.log"
+                     filePattern="${LOG_HOME}/controller-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="%m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DirectWriteRolloverStrategy maxFiles="10"/>
+        </RollingFile>
+        
+    </Appenders>
+
+    <Loggers>
+        <root level="${LOG_LEVEL}">
+            <appender-ref ref="console1"/>
+           <appender-ref ref="rollingFileWarn"/>
+            <appender-ref ref="rollingFileError"/>
+        </root>
+
+    </Loggers>
+</Configuration>
