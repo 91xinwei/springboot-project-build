@@ -23,6 +23,7 @@ import java.util.*;
    @ApiError ：发生错误返回的信息
    @ApiParamImplicitL：一个请求参数
    @ApiParamsImplicit 多个请求参数
+   http://localhost:8008/swagger-ui.html
  */
 @RestController
 @Api("SwaggerTestController相关api")
